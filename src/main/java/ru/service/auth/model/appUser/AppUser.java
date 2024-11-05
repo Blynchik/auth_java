@@ -61,7 +61,7 @@ public class AppUser {
         this.login = appUserRequest.getLogin();
         this.password = appUserRequest.getPassword();
         this.registeredAt = new Date();
-        this.changedAt = new Date();
+        this.changedAt = new Date(0);
         this.roles = new HashSet<>();
     }
 
@@ -69,7 +69,7 @@ public class AppUser {
         this.login = login;
         this.password = password;
         this.registeredAt = new Date();
-        this.changedAt = new Date();
+        this.changedAt = new Date(0);
         this.roles = new HashSet<>();
     }
 }
