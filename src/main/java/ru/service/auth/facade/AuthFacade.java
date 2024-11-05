@@ -44,7 +44,7 @@ public class AuthFacade {
         String login = jwtService.extractClaims(accessTokenRequest.getRefreshToken(), REFRESH).getSubject();
         AuthUser authUser = appUserService.loadUserByUsername(login);
         jwtService.verifyToken(accessTokenRequest.getRefreshToken(), authUser, REFRESH);
-        String accessToken = jwtService.generateAccessToken(authUser.getUsername());
+        String accessToken = jwtService.generateAccessToken(authUser);
         return new AccessTokenResponse(accessToken);
     }
 
@@ -58,8 +58,8 @@ public class AuthFacade {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthUser authUser = appUserService.loadUserByUsername(userDto.getLogin());
-        String accessToken = jwtService.generateAccessToken(authUser.getUsername());
-        String refreshToken = jwtService.generateRefreshToken(authUser.getUsername());
+        String accessToken = jwtService.generateAccessToken(authUser);
+        String refreshToken = jwtService.generateRefreshToken(authUser);
         return new AuthResponse(accessToken, refreshToken);
     }
 

@@ -102,6 +102,6 @@ public class AppUserService implements UserDetailsService {
         log.debug("Looking for a user: {}", login);
         Optional<AppUser> optionalUser = getByLoginOptional(login);
         return new AuthUser(optionalUser.orElseThrow(
-                () -> new BadCredentialsException("Invalid credentials")));
+                () -> new BadCredentialsException("Bad credentials")));
     }
 }

@@ -2,6 +2,7 @@ package ru.service.auth.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,13 @@ public class GlobalExceptionHandler {
     @Autowired
     public GlobalExceptionHandler(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ExceptionResponse> handleException(SignatureException e) {
+        logException(e);
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler
