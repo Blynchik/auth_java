@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.service.auth.config.security.JwtProperties;
 import ru.service.auth.model.appUser.AuthUser;
@@ -51,31 +50,35 @@ public class JwtService {
         return claims;
     }
 
-    public String generateRefreshToken(UserDetails userDetails) {
-        log.info("Generating {}-token for: {}", REFRESH, userDetails.getUsername());
-        return generateToken(userDetails.getUsername(),
+    public String generateRefreshToken(AuthUser authUser) {
+        log.info("Generating {}-token for: {}", REFRESH, authUser.getUsername());
+        return generateToken(authUser.getUsername(),
+                authUser.getUser().getId(),
                 new Date(System.currentTimeMillis() + jwtProperties.getRefreshExpiration()),
                 refreshKey,
                 null);
     }
 
-    public String generateAccessToken(UserDetails userDetails) {
-        log.info("Generating {}-token for: {}", ACCESS, userDetails.getUsername());
-        List<String> authorities = userDetails.getAuthorities().stream()
+    public String generateAccessToken(AuthUser authUser) {
+        log.info("Generating {}-token for: {}", ACCESS, authUser.getUsername());
+        List<String> authorities = authUser.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-        return generateToken(userDetails.getUsername(),
+        return generateToken(authUser.getUsername(),
+                authUser.getUser().getId(),
                 new Date(System.currentTimeMillis() + jwtProperties.getAccessExpiration()),
                 accessKey,
                 authorities);
     }
 
     private String generateToken(String login,
+                                 Long userId,
                                  Date expirationDate,
                                  SecretKey key,
                                  List<String> authorities) {
         var jwtBuilder = Jwts.builder()
                 .subject(login)
+                .claim("userId", userId)
                 .issuedAt(new Date())
                 .expiration(expirationDate)
                 .signWith(key);

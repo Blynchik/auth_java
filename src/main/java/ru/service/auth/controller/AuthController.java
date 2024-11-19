@@ -18,6 +18,15 @@ import ru.service.auth.facade.AuthFacade;
 @Slf4j
 public class AuthController {
 
+    //todo
+    // добавить изменение логина только с помощью refresh токена
+    // изменение пароля только с помощью refresh токена
+    // добавление прав админа
+    // удаление прав админа
+    // разлогирование
+    // или сделать отдельный сервис для этого, кроме разлогирования
+    // Передачу refresh-токена осуществить через HttpOnly cookies
+
     private final AuthFacade authFacade;
 
     @Autowired

@@ -346,6 +346,8 @@ public class AuthControllerTest {
             jwtService.verifyToken(authResponse.getRefreshToken(), authUser, REFRESH);
             List<String> authorities = jwtService.extractClaims(authResponse.getAccessToken(), ACCESS).get("authorities", List.class);
             assertNull(jwtService.extractClaims(authResponse.getRefreshToken(), REFRESH).get("authorities"));
+            assertNotNull(jwtService.extractClaims(authResponse.getAccessToken(), ACCESS).get("userId", Long.class));
+            assertNotNull(jwtService.extractClaims(authResponse.getRefreshToken(), REFRESH).get("userId", Long.class));
             assertEquals(1, authorities.size());
             assertEquals(Role.USER.getAuthority(), authorities.get(0));
         }
