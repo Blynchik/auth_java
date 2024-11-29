@@ -25,7 +25,8 @@ public class AuthController {
     // удаление прав админа
     // разлогирование
     // или сделать отдельный сервис для этого, кроме разлогирования
-    // Передачу refresh-токена осуществить через HttpOnly cookies
+    // Передачу refresh-токена осуществить через HttpOnly cookies (если будет веб-версия)
+    // Получить пользователя по id пользователя
 
     private final AuthFacade authFacade;
 

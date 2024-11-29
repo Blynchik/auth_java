@@ -31,13 +31,6 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    private final ObjectMapper objectMapper;
-
-    @Autowired
-    public GlobalExceptionHandler(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(SignatureException e) {
         logException(e);
@@ -88,49 +81,49 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity<ExceptionResponse> handleException(EntityNotFoundException e) {
+    private ResponseEntity<ExceptionResponse> handleException(EntityNotFoundException e) {
         logException(e);
         ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    ResponseEntity<ExceptionResponse> handleException(JwtException e) {
+    private ResponseEntity<ExceptionResponse> handleException(JwtException e) {
         logException(e);
         ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler
-    ResponseEntity<ExceptionResponse> handleException(HttpMessageNotReadableException e) {
+    private ResponseEntity<ExceptionResponse> handleException(HttpMessageNotReadableException e) {
         logException(e);
         ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    ResponseEntity<ExceptionResponse> handleException(IllegalArgumentException e) {
+    private ResponseEntity<ExceptionResponse> handleException(IllegalArgumentException e) {
         logException(e);
         ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    ResponseEntity<ExceptionResponse> handleException(HandlerMethodValidationException e) {
+    private ResponseEntity<ExceptionResponse> handleException(HandlerMethodValidationException e) {
         logException(e);
         ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    ResponseEntity<ExceptionResponse> handleException(NoResourceFoundException e) {
+    private ResponseEntity<ExceptionResponse> handleException(NoResourceFoundException e) {
         logException(e);
         ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    ResponseEntity<ExceptionResponse> handleException(IllegalStateException e) {
+    private ResponseEntity<ExceptionResponse> handleException(IllegalStateException e) {
         logException(e);
         ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

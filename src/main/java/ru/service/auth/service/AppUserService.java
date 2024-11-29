@@ -57,12 +57,12 @@ public class AppUserService implements UserDetailsService {
     }
 
     public Optional<AppUser> getByLoginOptional(String login) {
-        log.info("Looking for a user: {}", login);
+        log.info("Searching for a user: {}", login);
         return appUserRepo.findByLogin(login);
     }
 
     public AppUser getByLogin(String login) {
-        log.info("Looking for a user: {}", login);
+        log.info("Searching for a user: {}", login);
         return appUserRepo.findByLogin(login)
                 .orElseThrow(() ->
                         new EntityNotFoundException("The user was not found"));
@@ -99,7 +99,7 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public AuthUser loadUserByUsername(String login) throws UsernameNotFoundException {
-        log.debug("Looking for a user: {}", login);
+        log.debug("Searching for a user: {}", login);
         Optional<AppUser> optionalUser = getByLoginOptional(login);
         return new AuthUser(optionalUser.orElseThrow(
                 () -> new BadCredentialsException("Bad credentials")));
