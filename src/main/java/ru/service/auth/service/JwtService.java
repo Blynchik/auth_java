@@ -71,7 +71,7 @@ public class JwtService {
                 authorities);
     }
 
-    private String generateToken(String login,
+    public String generateToken(String login,
                                  Long userId,
                                  Date expirationDate,
                                  SecretKey key,

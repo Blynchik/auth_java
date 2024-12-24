@@ -30,10 +30,10 @@ public class AppUserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         AppUserRequest userDto = (AppUserRequest) target;
         log.info("Validating a new user: {}", userDto.getLogin());
-        validateCreate(userDto, errors);
         if (errors.hasErrors()) {
             throw new BindingValidationException((BindingResult) errors);
         }
+        validateCreate(userDto, errors);
     }
 
     private void validateCreate(AppUserRequest userDto, Errors errors) {
@@ -47,6 +47,10 @@ public class AppUserValidator implements Validator {
             String s = String.format("Invalid login %s", "null");
             errors.rejectValue("login", "", s);
             log.info(s);
+        }
+
+        if (errors.hasErrors()) {
+            throw new BindingValidationException((BindingResult) errors);
         }
     }
 }

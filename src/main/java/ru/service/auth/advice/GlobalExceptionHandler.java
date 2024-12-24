@@ -1,6 +1,5 @@
 package ru.service.auth.advice;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import ru.service.auth.config.common.ServerProperties;
 import ru.service.auth.dto.ExceptionInfo;
 import ru.service.auth.dto.ExceptionResponse;
 import ru.service.auth.util.exception.BindingValidationException;
@@ -31,101 +31,108 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    private final ServerProperties serverProperties;
+
+    @Autowired
+    public GlobalExceptionHandler(ServerProperties serverProperties) {
+        this.serverProperties = serverProperties;
+    }
+
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(SignatureException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(Exception e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(LazyInitializationException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(BindingValidationException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e.getBindingResult()));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e.getBindingResult()), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(ValidationException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(BadCredentialsException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(InternalAuthenticationServiceException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(EntityNotFoundException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(JwtException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(HttpMessageNotReadableException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(IllegalArgumentException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(HandlerMethodValidationException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(NoResourceFoundException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     private ResponseEntity<ExceptionResponse> handleException(IllegalStateException e) {
         logException(e);
-        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e));
+        ExceptionResponse response = new ExceptionResponse(getExceptionInfoList(e), serverProperties.getName(), serverProperties.getPort());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

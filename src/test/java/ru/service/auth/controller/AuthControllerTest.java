@@ -305,7 +305,7 @@ public class AuthControllerTest {
                     .andExpect(
                             jsonPath(String.format("$.exceptions[?(@.exception == 'BindingValidationException' " +
                                     "&& @.field == 'login' " +
-                                    "&& @.descr == 'Invalid login %s')]", login))
+                                    "&& @.descr == 'Enter your email address')]", login))
                                     .exists());
         }
     }
